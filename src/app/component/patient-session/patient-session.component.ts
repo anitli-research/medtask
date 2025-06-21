@@ -17,7 +17,7 @@ export class PatientSessionComponent implements OnInit {
     private router: Router,
     private sessionService: SessionService,
     private dataService: DataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -54,7 +54,10 @@ export class PatientSessionComponent implements OnInit {
             breakIntervalType: participantData[0].break_interval_type,
             sessionTimeoutSeconds: participantData[0].session_timeout_seconds,
             showProgressToggle: participantData[0].show_progress_toggle,
-            pauseOnBreakToggle: participantData[0].pause_on_break_toggle
+            pauseOnBreakToggle: participantData[0].pause_on_break_toggle,
+            forceBreak: participantData[0].force_break,
+            timeBankToggle: participantData[0].time_bank_toggle,
+            showTimeBank: participantData[0].show_time_bank
           });
 
           // create a new session
@@ -66,7 +69,10 @@ export class PatientSessionComponent implements OnInit {
               break_count_interval: participantData[0].break_count_interval,
               break_time_interval_seconds: participantData[0].break_time_interval_seconds,
               break_interval_type: participantData[0].break_interval_type,
-              show_progress_toggle: participantData[0].show_progress_toggle
+              show_progress_toggle: participantData[0].show_progress_toggle,
+              force_break: participantData[0].force_break,
+              time_bank_toggle: participantData[0].time_bank_toggle,
+              show_time_bank: participantData[0].show_time_bank
             })
             .subscribe((newSession) => {
               console.log('Create Session Data: ', {

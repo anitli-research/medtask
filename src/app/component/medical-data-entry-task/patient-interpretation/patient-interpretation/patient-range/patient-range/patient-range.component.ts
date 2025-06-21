@@ -27,6 +27,8 @@ export class PatientRangeComponent implements OnInit {
   timeRemaining: number = 45 * 60; // 45 minutes in seconds
   timerInterval: any; // Variable to store the interval
   breakRemaining: number = 0;
+  timeBank: number = 0;
+  showTimeBank: boolean = false;
   allRecords: any[] = [];
   isShowTimer = false;
   password = 'researcher2023';
@@ -43,7 +45,7 @@ export class PatientRangeComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private dialogRef: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     // get data from session
@@ -63,6 +65,7 @@ export class PatientRangeComponent implements OnInit {
     }
     this.isShowStatistics = this.sessionSettings.showProgressToggle;
     this.timeRemaining = this.sessionSettings.taskDurationSeconds;
+    this.showTimeBank = this.sessionSettings.showTimeBank;
 
     this.patientForm = this.fb.group({
       patientId: ['', Validators.required],
@@ -142,7 +145,7 @@ export class PatientRangeComponent implements OnInit {
     let maleOrFemaleRange = currentData.sex === 'Male' ? currentData.maleRange : currentData.femaleRange;
     let minValue = maleOrFemaleRange.split('to')[0];
     let maxValue = maleOrFemaleRange.split('to')[1];
-    return currentData.hr > minValue && currentData.hr < maxValue
+    return currentData.hr >= minValue && currentData.hr <= maxValue
       ? Interpretation['within range']
       : Interpretation['out of range'];
   }
@@ -245,12 +248,14 @@ export class PatientRangeComponent implements OnInit {
         // on break
         this.breakRemaining--;
         // if the pause on break toggle is off, then the timer should run during the break
+        // console.log(`Pause1: ${this.sessionSettings?.pauseOnBreakToggle}`);
         if (this.sessionSettings && !this.sessionSettings.pauseOnBreakToggle) {
           this.timeRemaining--;
         }
         this.isSubmitButtonDisabled = true;
       } else if (this.breakRemaining === 1) {
         // break is finished
+        // console.log(`Pause2: ${this.sessionSettings?.pauseOnBreakToggle}`);
         if (this.sessionSettings && !this.sessionSettings.pauseOnBreakToggle) {
           this.timeRemaining--;
         }
@@ -264,6 +269,7 @@ export class PatientRangeComponent implements OnInit {
         // this form emits an event to the parent component, which will reset the patient data
         this.formSubmitted.emit();
       } else if (this.timeRemaining > 1) {
+        // console.log(`Pause3: ${this.sessionSettings?.pauseOnBreakToggle}`);
         // regular session timer
         timeSpent++;
         this.timeRemaining--;
@@ -323,23 +329,32 @@ export class PatientRangeComponent implements OnInit {
       data: {
         textContent: 'Want to take a break?',
         confirmText: 'Yes',
-        cancelText: 'No',
+        cancelText: this.sessionSettings?.forceBreak ? null : 'No',
         confirmFunction: () => {
           this.stopTimer();
           userAcceptsBreak = true;
           this.breakRemaining = this.patientForm.value.breakDurationSeconds;
+          if (this.sessionSettings?.timeBankToggle) {
+            this.breakRemaining += this.timeBank
+            this.timeBank = 0
+          }
           this.isSubmitButtonDisabled = true;
           this.breakTiming.push({
             isBreakAccepted: true,
-            time: new Date()
+            time: new Date(),
+            time_bank: this.sessionSettings?.timeBankToggle ? this.timeBank : null,
           });
           this.dialogRef.closeAll();
         },
-        cancelFunction: () => {
+        cancelFunction: this.sessionSettings?.forceBreak ? undefined : () => {
           userAcceptsBreak = false;
+          if (this.sessionSettings?.timeBankToggle) {
+            this.timeBank += this.patientForm.value.breakDurationSeconds;
+          }
           this.breakTiming.push({
             isBreakAccepted: false,
-            time: new Date()
+            time: new Date(),
+            time_bank: this.sessionSettings?.timeBankToggle ? this.timeBank : null,
           });
           this.dialogRef.closeAll();
         }
@@ -359,7 +374,8 @@ export class PatientRangeComponent implements OnInit {
       this.dataService
         .createBreak({
           session_id: sessionId,
-          has_accepted: userAcceptsBreak
+          has_accepted: userAcceptsBreak,
+          time_bank: this.sessionSettings?.timeBankToggle ? this.timeBank : null,
         })
         .subscribe((newBreak) => {
           console.log('Create Break Data: ', {
@@ -381,7 +397,7 @@ export class PatientRangeComponent implements OnInit {
             this.dialogRef.closeAll();
           },
           cancelText: '',
-          cancelFunction: () => {}
+          cancelFunction: () => { }
         }
       });
       return;
@@ -447,9 +463,9 @@ export class PatientRangeComponent implements OnInit {
     });
 
     csvData.push(['', '']);
-    csvData.push(['breakAccepted', 'TimeAcceptedOrDeclined']);
+    csvData.push(['breakAccepted', 'TimeAcceptedOrDeclined', 'timeBank']);
     this.breakTiming.forEach((eachTime) => {
-      csvData.push([eachTime.isBreakAccepted, eachTime.time.toLocaleString('en-US', { timeZone: 'America/New_York' })]);
+      csvData.push([eachTime.isBreakAccepted, eachTime.time.toLocaleString('en-US', { timeZone: 'America/New_York' }), String(eachTime.time_bank)]);
     });
 
     // Convert CSV data to a string

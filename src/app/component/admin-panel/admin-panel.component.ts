@@ -15,7 +15,7 @@ export class AdminPanelComponent implements OnInit {
   isPasswordValid: boolean = false;
   isParticipantValid: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private dataService: DataService) {}
+  constructor(private formBuilder: FormBuilder, private dataService: DataService) { }
 
   ngOnInit(): void {
     this.initForms();
@@ -39,7 +39,10 @@ export class AdminPanelComponent implements OnInit {
       participantNumber: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
       sessionTimeoutSeconds: ['', Validators.required],
       showProgressToggle: ['', Validators.required],
-      pauseOnBreakToggle: ['', Validators.required]
+      pauseOnBreakToggle: ['', Validators.required],
+      forceBreak: ['', Validators.required],
+      timeBankToggle: ['', Validators.required],
+      showTimeBank: ['', Validators.required],
     });
 
     // this will disable the update button when participant number changes
@@ -151,7 +154,10 @@ export class AdminPanelComponent implements OnInit {
             breakIntervalType: participant[0].break_interval_type,
             sessionTimeoutSeconds: participant[0].session_timeout_seconds,
             showProgressToggle: participant[0].show_progress_toggle ? 'on' : 'off',
-            pauseOnBreakToggle: participant[0].pause_on_break_toggle ? 'on' : 'off'
+            pauseOnBreakToggle: participant[0].pause_on_break_toggle ? 'on' : 'off',
+            forceBreak: participant[0].force_break ? 'on' : 'off',
+            timeBankToggle: participant[0].time_bank_toggle ? 'on' : 'off',
+            showTimeBank: participant[0].show_time_bank ? 'on' : 'off'
           });
           // update if the participant is valid to allow the admin to update the participant's settings!!
           this.isParticipantValid = true;
@@ -175,7 +181,10 @@ export class AdminPanelComponent implements OnInit {
       this.adminForm.get('breakIntervalType')?.dirty ||
       this.adminForm.get('sessionTimeoutSeconds')?.dirty ||
       this.adminForm.get('showProgressToggle')?.dirty ||
-      this.adminForm.get('pauseOnBreakToggle')?.dirty
+      this.adminForm.get('pauseOnBreakToggle')?.dirty ||
+      this.adminForm.get('forceBreak')?.dirty ||
+      this.adminForm.get('timeBankToggle')?.dirty ||
+      this.adminForm.get('showTimeBank')?.dirty
     ) {
       // check the api error code to see if the participant number entered is valid or not
 
@@ -190,7 +199,10 @@ export class AdminPanelComponent implements OnInit {
           break_interval_type: this.adminForm.value.breakIntervalType,
           session_timeout_seconds: this.adminForm.value.sessionTimeoutSeconds,
           show_progress_toggle: this.adminForm.value.showProgressToggle === 'on' ? true : false,
-          pause_on_break_toggle: this.adminForm.value.pauseOnBreakToggle === 'on' ? true : false
+          pause_on_break_toggle: this.adminForm.value.pauseOnBreakToggle === 'on' ? true : false,
+          force_break: this.adminForm.value.forceBreak === 'on' ? true : false,
+          time_bank_toggle: this.adminForm.value.timeBankToggle === 'on' ? true : false,
+          show_time_bank: this.adminForm.value.showTimeBank === 'on' ? true : false
         })
         .subscribe((updatedParticipant) => {
           console.log('Update Participant Data: ', updatedParticipant);
@@ -209,9 +221,9 @@ export class AdminPanelComponent implements OnInit {
       .getHours()
       .toString()
       .padStart(2, '0')}:${createdAt.getMinutes().toString().padStart(2, '0')}:${createdAt
-      .getSeconds()
-      .toString()
-      .padStart(2, '0')}`;
+        .getSeconds()
+        .toString()
+        .padStart(2, '0')}`;
     return formattedCreatedAt;
   }
 }

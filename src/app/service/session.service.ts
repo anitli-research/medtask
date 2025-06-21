@@ -3,15 +3,18 @@ import { BreakIntervalType, SessionInputModel } from 'server/src/types';
 
 export type SessionSettings =
   | {
-      taskDurationSeconds: number;
-      breakDurationSeconds: number;
-      breakCountInterval: number;
-      breakTimeIntervalSeconds: number;
-      breakIntervalType: BreakIntervalType;
-      sessionTimeoutSeconds: number;
-      showProgressToggle: boolean;
-      pauseOnBreakToggle: boolean;
-    }
+    taskDurationSeconds: number;
+    breakDurationSeconds: number;
+    breakCountInterval: number;
+    breakTimeIntervalSeconds: number;
+    breakIntervalType: BreakIntervalType;
+    sessionTimeoutSeconds: number;
+    showProgressToggle: boolean;
+    pauseOnBreakToggle: boolean;
+    forceBreak: boolean;
+    timeBankToggle: boolean;
+    showTimeBank: boolean;
+  }
   | undefined;
 
 @Injectable({
@@ -22,7 +25,7 @@ export class SessionService {
   protected sessionId: number | undefined;
   protected sessionSettings: SessionSettings;
 
-  constructor() {}
+  constructor() { }
 
   getParticipantNumber(): string | undefined {
     return this.participantNumber;
