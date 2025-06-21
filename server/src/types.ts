@@ -17,7 +17,12 @@ export interface ParticipantViewModel {
   session_timeout_seconds: number;
   show_progress_toggle: boolean;
   pause_on_break_toggle: boolean;
+
+  force_break: boolean;
+  time_bank_toggle: boolean;
+  show_time_bank: boolean;
 }
+
 export interface UpdateParticipantInputModel {
   participant_number: string;
 
@@ -30,6 +35,10 @@ export interface UpdateParticipantInputModel {
   session_timeout_seconds: number;
   show_progress_toggle: boolean;
   pause_on_break_toggle: boolean;
+
+  force_break: boolean;
+  time_bank_toggle: boolean;
+  show_time_bank: boolean;
 }
 
 export interface SessionViewModel {
@@ -39,6 +48,9 @@ export interface SessionViewModel {
   break_duration_seconds: number;
   break_count_interval: number;
   break_time_interval_seconds: number;
+  force_break: boolean;
+  time_bank_toggle: boolean;
+  show_time_bank: boolean;
 }
 
 export enum Interpretation {
@@ -63,9 +75,13 @@ export interface SessionInputModel {
   break_time_interval_seconds: number;
   break_interval_type: BreakIntervalType;
   show_progress_toggle: boolean;
+  force_break: boolean;
+  time_bank_toggle: boolean;
+  show_time_bank: boolean;
 }
 
 export interface BreakInputModel {
   session_id: number;
   has_accepted: boolean;
+  time_bank: number | null;
 }

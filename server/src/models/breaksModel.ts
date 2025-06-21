@@ -21,11 +21,21 @@ export const findAllBreaksByParticipantNumber = async (participant_number: strin
 
 // create break into
 //   INSERT INTO Breaks (session_id, has_accepted, duration) VALUES (1, true, 4)
-export const insertBreak = async (session_id: number, has_accepted: boolean) => {
-  const queryData = await pool.query<ResultSetHeader>('INSERT INTO Breaks (session_id, has_accepted) VALUES (?, ?);', [
-    session_id,
-    has_accepted
-  ]);
+export const insertBreak = async (session_id: number, has_accepted: boolean, time_bank: number | null = null) => {
+  let queryData = undefined;
+  if (time_bank !== null) {
+    queryData = await pool.query<ResultSetHeader>('INSERT INTO Breaks (session_id, has_accepted, time_bank) VALUES (?, ?, ?);', [
+      session_id,
+      has_accepted,
+      time_bank
+    ]);
+  } else {
+    queryData = await pool.query<ResultSetHeader>('INSERT INTO Breaks (session_id, has_accepted) VALUES (?, ?);', [
+      session_id,
+      has_accepted
+    ]);
+  }
+
   console.log(queryData);
   return queryData;
 };

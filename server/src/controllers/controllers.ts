@@ -61,7 +61,7 @@ export const getAndCreateParticipantByParticipantNumber = async (req: Request, r
 
 export const createBreak = async (req: Request, res: Response) => {
   try {
-    const data = await database.insertBreak(req.body.session_id, req.body.has_accepted);
+    const data = await database.insertBreak(req.body.session_id, req.body.has_accepted, req.body.time_bank);
 
     const createdBreak = await database.findBreakById(data[0].insertId.toString());
     res.status(201).json(createdBreak);

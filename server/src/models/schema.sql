@@ -82,3 +82,13 @@ select id as submission_id, session_id, created_at from submissions union all se
 select * from sessions left join submissions on sessions.id = submissions.session_id where sessions.participant_number = ?; [participant_number]
 select * from sessions left join breaks on sessions.id = breaks.session_id where sessions.participant_number = ?; [participant_number]
 
+-- Add the time bank feature
+ALTER TABLE Participants ADD time_bank_toggle BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE Participants ADD show_time_bank BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE Sessions ADD time_bank_toggle BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE Sessions ADD show_time_bank BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE Break ADD time_bank INT UNSIGNED DEFAULT NULL;
+
+-- Add the force break toggle
+ALTER TABLE Participants ADD force_break BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE Sessions ADD force_break BOOLEAN NOT NULL DEFAULT false;
