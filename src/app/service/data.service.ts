@@ -16,8 +16,8 @@ import { generateRandomPatientData, PatientData } from 'src/utils/patientGenerat
 })
 export class DataService {
   // private apiUrl = 'https://medtask-2j1g.onrender.com/api';
-  // private apiUrl = 'https://medtask-server.onrender.com/api';
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://medtask-server.onrender.com/api';
+  // private apiUrl = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient) { }
 
