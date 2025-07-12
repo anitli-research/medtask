@@ -330,34 +330,44 @@ export class PatientRangeComponent implements OnInit {
         textContent: 'Want to take a break?',
         confirmText: 'Yes',
         cancelText: this.sessionSettings?.forceBreak ? null : 'No',
+        laterText: this.sessionSettings?.timeBankToggle ? 'Later' : null,
         confirmFunction: () => {
           this.stopTimer();
           userAcceptsBreak = true;
           this.breakRemaining = this.patientForm.value.breakDurationSeconds;
+          let old_bank = null;
           if (this.sessionSettings?.timeBankToggle) {
             this.breakRemaining += this.timeBank
+            old_bank = this.breakRemaining
             this.timeBank = 0
           }
           this.isSubmitButtonDisabled = true;
           this.breakTiming.push({
             isBreakAccepted: true,
             time: new Date(),
-            time_bank: this.sessionSettings?.timeBankToggle ? this.timeBank : null,
+            time_bank: old_bank,
           });
           this.dialogRef.closeAll();
         },
         cancelFunction: this.sessionSettings?.forceBreak ? undefined : () => {
           userAcceptsBreak = false;
-          if (this.sessionSettings?.timeBankToggle) {
-            this.timeBank += this.patientForm.value.breakDurationSeconds;
-          }
           this.breakTiming.push({
             isBreakAccepted: false,
             time: new Date(),
-            time_bank: this.sessionSettings?.timeBankToggle ? this.timeBank : null,
+            time_bank: this.sessionSettings?.timeBankToggle ? this.timeBank : 0,
           });
           this.dialogRef.closeAll();
-        }
+        },
+        laterFunction: this.sessionSettings?.timeBankToggle ? () => {
+          userAcceptsBreak = false;
+          this.timeBank += this.patientForm.value.breakDurationSeconds;
+          this.breakTiming.push({
+            isBreakAccepted: false,
+            time: new Date(),
+            time_bank: this.timeBank
+          });
+          this.dialogRef.closeAll();
+        } : undefined,
       }
     });
 

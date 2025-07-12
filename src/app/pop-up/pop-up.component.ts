@@ -7,6 +7,8 @@ type PopupInput = {
   confirmFunction: () => void | undefined;
   cancelText: string;
   cancelFunction: () => void | undefined;
+  laterText: string | undefined;
+  laterFunction: () => void | undefined;
 };
 
 @Component({
@@ -20,6 +22,8 @@ export class PopUpComponent {
   confirmFunction: () => void;
   cancelText: string;
   cancelFunction: () => void;
+  laterText: string | undefined;
+  laterFunction: () => void | undefined;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PopupInput) {
     this.textContent = data.textContent;
@@ -27,5 +31,7 @@ export class PopUpComponent {
     this.confirmFunction = data.confirmFunction;
     this.cancelText = data.cancelText;
     this.cancelFunction = data.cancelFunction;
+    this.laterText = data.laterText;
+    this.laterFunction = data.laterFunction;
   }
 }
