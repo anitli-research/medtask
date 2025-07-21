@@ -92,3 +92,7 @@ ALTER TABLE Break ADD time_bank INT UNSIGNED DEFAULT NULL;
 -- Add the force break toggle
 ALTER TABLE Participants ADD force_break BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE Sessions ADD force_break BOOLEAN NOT NULL DEFAULT false;
+
+-- Add the show timer toggle
+ALTER TABLE Participants ADD show_timer_toggle BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE Sessions ADD show_timer_toggle BOOLEAN NOT NULL DEFAULT false;

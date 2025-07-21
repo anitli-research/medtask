@@ -14,6 +14,7 @@ export type SessionSettings =
     forceBreak: boolean;
     timeBankToggle: boolean;
     showTimeBank: boolean;
+    showTimerToggle: boolean;
   }
   | undefined;
 

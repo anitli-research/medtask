@@ -76,7 +76,7 @@
       <div class="card-content">
         <p *ngIf="isShowStatistics" class="card-total-record">Total Record: {{ totalRecord }}</p>
         <p *ngIf="isShowStatistics" class="card-correct-record">Correct Record: {{ correctRecord }}</p>
-        <p class="card-timer">Timer: {{ timeRemaining | formatTime }}</p>
+        <p *ngIf="showTimerToggle" class="card-timer">Timer: {{ timeRemaining | formatTime }}</p>
         <p *ngIf="breakRemaining >= 1" class="card-break">Break Timer: {{ breakRemaining | formatTime }}</p>
         <p *ngIf="showTimeBank && timeBank >= 1" class="card-break">Accrued Break Time: {{ timeBank | formatTime }}</p>
         <!-- Your additional progress content goes here -->

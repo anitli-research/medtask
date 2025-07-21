@@ -21,6 +21,7 @@ export interface ParticipantViewModel {
   force_break: boolean;
   time_bank_toggle: boolean;
   show_time_bank: boolean;
+  show_timer_toggle: boolean;
 }
 
 export interface UpdateParticipantInputModel {
@@ -39,6 +40,7 @@ export interface UpdateParticipantInputModel {
   force_break: boolean;
   time_bank_toggle: boolean;
   show_time_bank: boolean;
+  show_timer_toggle: boolean;
 }
 
 export interface SessionViewModel {
@@ -51,6 +53,7 @@ export interface SessionViewModel {
   force_break: boolean;
   time_bank_toggle: boolean;
   show_time_bank: boolean;
+  show_timer_toggle: boolean;
 }
 
 export enum Interpretation {
@@ -78,6 +81,7 @@ export interface SessionInputModel {
   force_break: boolean;
   time_bank_toggle: boolean;
   show_time_bank: boolean;
+  show_timer_toggle: boolean;
 }
 
 export interface BreakInputModel {

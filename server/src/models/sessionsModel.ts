@@ -22,7 +22,7 @@ export const findSessionsByParticipantNumber = async (participant_number: string
 //   insert into Sessions (participant_number, duration) values (participant_number, duration);
 export const insertSession = async (params: SessionInputModel) => {
   const queryData = await pool.query<ResultSetHeader>(
-    'INSERT INTO Sessions (participant_number, task_duration_seconds, break_duration_seconds, break_count_interval, break_time_interval_seconds, break_interval_type, show_progress_toggle, force_break, time_bank_toggle, show_time_bank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+    'INSERT INTO Sessions (participant_number, task_duration_seconds, break_duration_seconds, break_count_interval, break_time_interval_seconds, break_interval_type, show_progress_toggle, force_break, time_bank_toggle, show_time_bank, show_timer_toggle) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
     [
       params.participant_number,
       params.task_duration_seconds,
@@ -33,7 +33,8 @@ export const insertSession = async (params: SessionInputModel) => {
       params.show_progress_toggle,
       params.force_break,
       params.time_bank_toggle,
-      params.show_time_bank
+      params.show_time_bank,
+      params.show_timer_toggle
     ]
   );
   console.log(queryData);

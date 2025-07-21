@@ -43,6 +43,7 @@ export class AdminPanelComponent implements OnInit {
       forceBreak: ['', Validators.required],
       timeBankToggle: ['', Validators.required],
       showTimeBank: ['', Validators.required],
+      showTimerToggle: ['', Validators.required],
     });
 
     // this will disable the update button when participant number changes
@@ -157,7 +158,8 @@ export class AdminPanelComponent implements OnInit {
             pauseOnBreakToggle: participant[0].pause_on_break_toggle ? 'on' : 'off',
             forceBreak: participant[0].force_break ? 'on' : 'off',
             timeBankToggle: participant[0].time_bank_toggle ? 'on' : 'off',
-            showTimeBank: participant[0].show_time_bank ? 'on' : 'off'
+            showTimeBank: participant[0].show_time_bank ? 'on' : 'off',
+            showTimerToggle: participant[0].show_timer_toggle ? 'on' : 'off'
           });
           // update if the participant is valid to allow the admin to update the participant's settings!!
           this.isParticipantValid = true;
@@ -184,10 +186,10 @@ export class AdminPanelComponent implements OnInit {
       this.adminForm.get('pauseOnBreakToggle')?.dirty ||
       this.adminForm.get('forceBreak')?.dirty ||
       this.adminForm.get('timeBankToggle')?.dirty ||
-      this.adminForm.get('showTimeBank')?.dirty
+      this.adminForm.get('showTimeBank')?.dirty ||
+      this.adminForm.get('showTimerToggle')?.dirty
     ) {
       // check the api error code to see if the participant number entered is valid or not
-
       // update participant settings in the server
       this.dataService
         .updateParticipantSettings({
@@ -202,7 +204,8 @@ export class AdminPanelComponent implements OnInit {
           pause_on_break_toggle: this.adminForm.value.pauseOnBreakToggle === 'on' ? true : false,
           force_break: this.adminForm.value.forceBreak === 'on' ? true : false,
           time_bank_toggle: this.adminForm.value.timeBankToggle === 'on' ? true : false,
-          show_time_bank: this.adminForm.value.showTimeBank === 'on' ? true : false
+          show_time_bank: this.adminForm.value.showTimeBank === 'on' ? true : false,
+          show_timer_toggle: this.adminForm.value.showTimerToggle === 'on' ? true : false
         })
         .subscribe((updatedParticipant) => {
           console.log('Update Participant Data: ', updatedParticipant);

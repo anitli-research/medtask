@@ -29,6 +29,7 @@ export class PatientRangeComponent implements OnInit {
   breakRemaining: number = 0;
   timeBank: number = 0;
   showTimeBank: boolean = false;
+  showTimerToggle: boolean = false;
   allRecords: any[] = [];
   isShowTimer = false;
   password = 'researcher2023';
@@ -66,6 +67,7 @@ export class PatientRangeComponent implements OnInit {
     this.isShowStatistics = this.sessionSettings.showProgressToggle;
     this.timeRemaining = this.sessionSettings.taskDurationSeconds;
     this.showTimeBank = this.sessionSettings.showTimeBank;
+    this.showTimerToggle = this.sessionSettings.showTimerToggle;
 
     this.patientForm = this.fb.group({
       patientId: ['', Validators.required],
