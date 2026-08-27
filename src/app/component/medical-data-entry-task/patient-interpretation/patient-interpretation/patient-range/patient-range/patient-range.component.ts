@@ -24,6 +24,7 @@ export class PatientRangeComponent implements OnInit {
   isShowProgressClicked = false;
   totalRecord = 0;
   correctRecord = 0;
+  productivityQuota = 0;
   timeRemaining: number = 45 * 60; // 45 minutes in seconds
   timerInterval: any; // Variable to store the interval
   breakRemaining: number = 0;
@@ -52,7 +53,7 @@ export class PatientRangeComponent implements OnInit {
     // get data from session
     const participantNumber = this.sessionService.getParticipantNumber();
     this.sessionSettings = this.sessionService.getSessionSettings();
-
+    
     if (!participantNumber) {
       alert('patient-range-init: Session Patient Number not found!!');
       this.router.navigate(['/patient-session']);
@@ -68,6 +69,7 @@ export class PatientRangeComponent implements OnInit {
     this.timeRemaining = this.sessionSettings.taskDurationSeconds;
     this.showTimeBank = this.sessionSettings.showTimeBank;
     this.showTimerToggle = this.sessionSettings.showTimerToggle;
+    this.productivityQuota = this.sessionSettings.productivityQuota;
 
     this.patientForm = this.fb.group({
       patientId: ['', Validators.required],
@@ -210,7 +212,16 @@ export class PatientRangeComponent implements OnInit {
       this.showBreakPopup();
     }
   }
+  getProgressPercentage(): number {
+    if (!this.productivityQuota || this.productivityQuota <= 0) {
+      return 0;
+    }
 
+    return Math.min(
+      (this.totalRecord / this.productivityQuota) * 100,
+      100
+    );
+  }
   getTimestampDifferenceInSeconds(start: Date, end: Date): number {
     const startTime = start.getTime();
     const endTime = end.getTime();
@@ -233,7 +244,9 @@ export class PatientRangeComponent implements OnInit {
         this.dialogRef.open(PopUpComponent, {
           disableClose: true,
           data: {
-            textContent: 'You have completed this session. Please download your records and send to your researcher.',
+            textContent:
+            this.sessionSettings?.completionPopupText ||
+            'You have completed this session. Please download your records and send to your researcher.',
             confirmText: 'Download Records',
             cancelText: 'Close',
             confirmFunction: () => {
@@ -329,7 +342,9 @@ export class PatientRangeComponent implements OnInit {
     const breakPopup = this.dialogRef.open(PopUpComponent, {
       disableClose: true,
       data: {
-        textContent: 'Want to take a break?',
+        textContent:
+        this.sessionSettings?.breakPopupText ||
+        'Want to take a break?',
         confirmText: 'Yes',
         cancelText: this.sessionSettings?.forceBreak ? null : 'No',
         laterText: this.sessionSettings?.timeBankToggle ? 'Later' : null,

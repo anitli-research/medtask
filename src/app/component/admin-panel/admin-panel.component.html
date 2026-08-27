@@ -17,6 +17,38 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="productivity-quota">Productivity Quota (records)</label>
+        <div class="input-with-button">
+          <input
+            type="number"
+            id="productivity-quota"
+            formControlName="productivityQuota"
+            min="1"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="break-popup-text">Break Popup Text</label>
+        <div class="input-with-button">
+          <textarea
+            id="break-popup-text"
+            formControlName="breakPopupText"
+            rows="3">
+          </textarea>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="completion-popup-text">Session Completion Popup Text</label>
+        <div class="input-with-button">
+          <textarea
+            id="completion-popup-text"
+            formControlName="completionPopupText"
+            rows="3">
+          </textarea>
+        </div>
+      </div>
+      <div class="form-group">
         <label for="task-duration">Task Duration (seconds)</label>
         <div class="input-with-button">
           <input type="number" id="task-duration" formControlName="taskDurationSeconds" />
