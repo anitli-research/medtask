@@ -82,7 +82,16 @@
         <!-- Your additional progress content goes here -->
       </div>
     </div>
-
+    <div *ngIf="sessionSettings?.showProgressToggle && productivityQuota > 0">
+      <p>Progress: {{ totalRecord }} / {{ productivityQuota }}</p>
+    
+      <progress
+        [value]="getProgressPercentage()"
+        max="100">
+      </progress>
+    
+      <p>{{ getProgressPercentage() | number:'1.0-0' }}%</p>
+    </div>
     <!-- <button type="button" (click)="showProgress()">Show Progress</button> -->
     <p>
       <button type="button" class="download" (click)="downloadRecords()">Download Records</button>

@@ -8,6 +8,7 @@ export type SessionSettings =
     breakCountInterval: number;
     breakTimeIntervalSeconds: number;
     breakIntervalType: BreakIntervalType;
+    productivityQuota: number;
     sessionTimeoutSeconds: number;
     showProgressToggle: boolean;
     pauseOnBreakToggle: boolean;
@@ -15,6 +16,8 @@ export type SessionSettings =
     timeBankToggle: boolean;
     showTimeBank: boolean;
     showTimerToggle: boolean;
+    breakPopupText: string;
+    completionPopupText: string;
   }
   | undefined;
 

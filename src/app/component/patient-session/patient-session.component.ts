@@ -58,7 +58,10 @@ export class PatientSessionComponent implements OnInit {
             forceBreak: participantData[0].force_break,
             timeBankToggle: participantData[0].time_bank_toggle,
             showTimeBank: participantData[0].show_time_bank,
-            showTimerToggle: participantData[0].show_timer_toggle
+            showTimerToggle: participantData[0].show_timer_toggle,
+            productivityQuota: participantData[0].productivity_quota,
+            breakPopupText: participantData[0].break_popup_text,
+            completionPopupText: participantData[0].completion_popup_text
           });
 
           // create a new session

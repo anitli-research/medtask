@@ -11,6 +11,7 @@ export interface ParticipantViewModel {
   task_duration_seconds: number;
   break_duration_seconds: number;
   break_count_interval: number;
+  productivity_quota:number;
   break_time_interval_seconds: number;
   break_interval_type: BreakIntervalType;
 
@@ -22,6 +23,8 @@ export interface ParticipantViewModel {
   time_bank_toggle: boolean;
   show_time_bank: boolean;
   show_timer_toggle: boolean;
+  break_popup_text: string;
+  completion_popup_text: string;
 }
 
 export interface UpdateParticipantInputModel {
@@ -30,6 +33,7 @@ export interface UpdateParticipantInputModel {
   task_duration_seconds: number;
   break_duration_seconds: number;
   break_count_interval: number;
+  productivity_quota: number;
   break_time_interval_seconds: number;
   break_interval_type: BreakIntervalType;
 
@@ -41,6 +45,8 @@ export interface UpdateParticipantInputModel {
   time_bank_toggle: boolean;
   show_time_bank: boolean;
   show_timer_toggle: boolean;
+  break_popup_text: string;
+  completion_popup_text: string;
 }
 
 export interface SessionViewModel {
