@@ -432,42 +432,43 @@ export class PatientRangeComponent implements OnInit {
 
     // Create CSV data
     const csvData: any[] = [];
-    csvData.push(['Field', 'Value']); // Header
+csvData.push(['', '', '', '', '', 'Field', 'Value']); // Header in F/G
 
-    // Add user inputs
-    csvData.push(['Participant ID', this.sessionService.getParticipantNumber()]);
-    csvData.push(['Session Id', this.sessionService.getSessionId()]);
-    csvData.push(['', '']); // Empty row for separation
+// Add user inputs
+csvData.push(['', '', '', '', '', 'Participant ID', this.sessionService.getParticipantNumber()]);
+csvData.push(['', '', '', '', '', 'Session Id', this.sessionService.getSessionId()]);
+csvData.push(['', '', '', '', '', '', '']); // Empty row for separation
 
-    // Add summary
-    csvData.push(['Total Record', this.totalRecord]);
-    csvData.push(['Correct Record', this.correctRecord]);
-    csvData.push(['Time Remaining', this.timeRemaining]);
-    csvData.push(['Session Length', `${this.sessionSettings?.taskDurationSeconds} seconds`]);
-    csvData.push(['', '']); // Empty row for separation
+// Add summary
+csvData.push(['', '', '', '', '', 'Total Record', this.totalRecord]);
+csvData.push(['', '', '', '', '', 'Correct Record', this.correctRecord]);
+csvData.push(['', '', '', '', '', 'Time Remaining', this.timeRemaining]);
+csvData.push(['', '', '', '', '', 'Session Length', `${this.sessionSettings?.taskDurationSeconds} seconds`]);
+csvData.push(['', '', '', '', '', '', '']); // Empty row for separation
 
     // Add current patient details if available
     const currentData = this.data[this.randomNumber]?.currentPatientDetails;
     if (currentData) {
-      csvData.push(['Current Patient Details']);
+      csvData.push(['', '', '', '', '', 'Current Patient Details', '']);
       // Flatten the nested structure
       Object.entries(currentData).forEach(([key, value]: [string, any]) => {
         if (typeof value === 'object') {
           // Flatten nested object
           Object.entries(value).forEach(([nestedKey, nestedValue]: [string, any]) => {
-            csvData.push([`${key} - ${nestedKey}`, nestedValue.toString()]);
+            csvData.push(['', '', '', '', '', `${key} - ${nestedKey}`, nestedValue.toString()]);
           });
         } else {
-          csvData.push([key, value.toString()]);
+          csvData.push(['', '', '', '', '', key, value.toString()]);
         }
       });
-      csvData.push(['', '']); // Empty row for separation
+      csvData.push(['', '', '', '', '', '', '']); // Empty row for separation
     }
 
     // Add patient records
     csvData.push(['Patient Records']);
     csvData.push([
-      'Timestamp',
+      'Date',
+      'Time',
       'Given Patient ID',
       'Entered Patient Id',
       'Is Patient Id Valid',
@@ -478,7 +479,8 @@ export class PatientRangeComponent implements OnInit {
     ]);
     this.allRecords.forEach((record) => {
       csvData.push([
-        record.timestamp.toLocaleString('en-US', { timeZone: 'America/New_York' }),
+        record.timestamp.toLocaleDateString('en-US', { timeZone: 'America/New_York' }),
+        record.timestamp.toLocaleTimeString('en-US', { timeZone: 'America/New_York' }),
         record.currentPatientDetails.patientId,
         record.enteredPatientId,
         record.isPatientIdValid,
