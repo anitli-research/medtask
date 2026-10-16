@@ -492,10 +492,18 @@ csvData.push(['', '', '', '', '', '', '']); // Empty row for separation
     });
 
     csvData.push(['', '']);
-    csvData.push(['breakAccepted', 'TimeAcceptedOrDeclined', 'timeBank']);
-    this.breakTiming.forEach((eachTime) => {
-      csvData.push([eachTime.isBreakAccepted, eachTime.time.toLocaleString('en-US', { timeZone: 'America/New_York' }), String(eachTime.time_bank)]);
-    });
+
+csvData.push(['Date', 'Time', '', 'breakAccepted', 'timeBank']);
+
+this.breakTiming.forEach((eachTime) => {
+  csvData.push([
+    eachTime.time.toLocaleDateString('en-US', { timeZone: 'America/New_York' }),
+    eachTime.time.toLocaleTimeString('en-US', { timeZone: 'America/New_York' }),
+    '',
+    String(eachTime.isBreakAccepted),
+    String(eachTime.time_bank)
+  ]);
+});
 
     // Convert CSV data to a string
     const csvString = unparseToCsvString(csvData);
